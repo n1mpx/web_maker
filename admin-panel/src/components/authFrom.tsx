@@ -16,11 +16,11 @@ const AuthForm = () => {
 
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Ошибка отправки email');
-      setStep(2);
-      }catch (err) {
-        console.error(err);
-        setError('Ошибка при отправке кода');
-      }
+      setStep(2);  // Переходим к следующему шагу (ввод кода)
+    } catch (err) {
+      console.error(err);
+      setError('Ошибка при отправке кода');
+    }
   };
 
   const handleConfirmCode = async () => {
@@ -34,15 +34,16 @@ const AuthForm = () => {
       const data = await response.json();
       if (!response.ok) throw new Error(data.message || 'Неверный код');
 
-      // Успех: сохранить токен и редирект
-      localStorage.setItem('token', data.access_token);
+      // Сохраняем токен в localStorage
+      localStorage.setItem('token', data.access);
       alert('Успешный вход!');
-      // Можно сделать навигацию на другую страницу
-      // например: window.location.href = '/products'
-      }catch (err) {
-        console.error(err);
-        setError('Ошибка подтверждения кода');
-      }
+
+      // Редирект или дальнейшая логика
+      // window.location.href = '/products'
+    } catch (err) {
+      console.error(err);
+      setError('Ошибка подтверждения кода');
+    }
   };
 
   return (
