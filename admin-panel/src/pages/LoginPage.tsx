@@ -25,7 +25,7 @@ export const LoginPage = () => {
   const handleConfirmCode = async () => {
     try {
       const response = await confirmLoginCode(email, code);
-      localStorage.setItem('token', response.data.accessToken); // сохраняем токен
+      localStorage.setItem('token', response.data.accessToken);
       alert('Успешная авторизация!');
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
