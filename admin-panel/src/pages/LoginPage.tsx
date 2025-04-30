@@ -1,20 +1,25 @@
-// src/pages/LoginPage.tsx
 import { useState } from 'react';
 import { sendLoginCode, confirmLoginCode } from '../services/authService';
 import axios from 'axios';
-import '../styles/LoginPage.css'
+import '../styles/LoginPage.css';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [code, setCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(true);
 
   const handleSendCode = async () => {
+    if (!email.includes('@')) {
+      setIsEmailValid(false);
+      return;
+    }
+    
     try {
       await sendLoginCode(email);
-      alert('Код отправлен на почту');
       setIsCodeSent(true);
-    } catch (error: unknown) {
+      setIsEmailValid(true);
+    } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error.response?.data?.message || 'Ошибка при отправке кода');
       } else {
@@ -28,7 +33,7 @@ export const LoginPage = () => {
       const response = await confirmLoginCode(email, code);
       localStorage.setItem('token', response.data.accessToken);
       alert('Успешная авторизация!');
-    } catch (error: unknown) {
+    } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error.response?.data?.message || 'Ошибка при подтверждении кода');
       } else {
@@ -37,34 +42,49 @@ export const LoginPage = () => {
     }
   };
 
+  const handleResendCode = () => {
+    setCode('');
+    handleSendCode();
+  };
+
   return (
     <div className="login-wrapper">
       <div className="login-box">
-        <h2>Вход с помощью почты</h2>
-        <input
-          type="email"
-          placeholder="@"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
         {!isCodeSent ? (
-          <button onClick={handleSendCode}>войти</button>
+          <>
+            <h2>Вход с помощью почты</h2>
+            <input
+              type="email"
+              placeholder="@"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className={!isEmailValid ? 'input-error' : ''}
+            />
+            {!isEmailValid && <p className="error-text">Введите корректный email</p>}
+            <button onClick={handleSendCode}>Войти</button>
+            <div className="agreement">
+              <input type="checkbox" defaultChecked />
+              <label>Соглашаюсь с правилами пользования торговой площадкой и возврата</label>
+            </div>
+          </>
         ) : (
           <>
+            <h2>Введите код</h2>
+            <p className="code-message">На почту вам пришло письмо с кодом</p>
             <input
               type="text"
               placeholder="Введите код"
               value={code}
               onChange={(e) => setCode(e.target.value)}
+              className="code-input"
             />
             <button onClick={handleConfirmCode}>Подтвердить</button>
+            <p className="resend-link" onClick={handleResendCode}>
+              Запросить повторно
+            </p>
           </>
         )}
-        <div className="agreement">
-          <input type="checkbox" defaultChecked />
-          <label>Соглашаюсь с правилами пользования торговой площадкой и возврата</label>
-        </div>
       </div>
     </div>
-  );  
+  );
 };
