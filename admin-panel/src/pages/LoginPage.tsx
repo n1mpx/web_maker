@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { sendLoginCode, confirmLoginCode } from '../services/authService';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import '../styles/LoginPage.css';
 
@@ -33,6 +34,7 @@ export const LoginPage = () => {
       const response = await confirmLoginCode(email, code);
       localStorage.setItem('token', response.data.accessToken);
       alert('Успешная авторизация!');
+      navigate('/catalog')
     } catch (error) {
       if (axios.isAxiosError(error)) {
         alert(error.response?.data?.message || 'Ошибка при подтверждении кода');
@@ -46,6 +48,9 @@ export const LoginPage = () => {
     setCode('');
     handleSendCode();
   };
+
+  const navigate = useNavigate();
+
 
   return (
     <div className="login-wrapper">
@@ -84,6 +89,7 @@ export const LoginPage = () => {
             </p>
           </>
         )}
+        
       </div>
     </div>
   );
