@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { sendLoginCode, confirmLoginCode } from '../services/authService';
 import axios from 'axios';
+import '../styles/LoginPage.css'
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -37,27 +38,33 @@ export const LoginPage = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>Авторизация</h2>
-      <input
-        type="email"
-        placeholder="Введите email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      {!isCodeSent ? (
-        <button onClick={handleSendCode}>Отправить код</button>
-      ) : (
-        <>
-          <input
-            type="text"
-            placeholder="Введите код"
-            value={code}
-            onChange={(e) => setCode(e.target.value)}
-          />
-          <button onClick={handleConfirmCode}>Войти</button>
-        </>
-      )}
+    <div className="login-wrapper">
+      <div className="login-box">
+        <h2>Вход с помощью почты</h2>
+        <input
+          type="email"
+          placeholder="@"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        {!isCodeSent ? (
+          <button onClick={handleSendCode}>войти</button>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="Введите код"
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            />
+            <button onClick={handleConfirmCode}>Подтвердить</button>
+          </>
+        )}
+        <div className="agreement">
+          <input type="checkbox" defaultChecked />
+          <label>Соглашаюсь с правилами пользования торговой площадкой и возврата</label>
+        </div>
+      </div>
     </div>
-  );
+  );  
 };
