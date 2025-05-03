@@ -84,7 +84,7 @@ export const LoginPage = () => {
               className="code-input"
             />
             <button onClick={handleConfirmCode}>Подтвердить</button>
-            <p className="resend-link" onClick={handleResendCode}>
+            <p className="resend-code" onClick={handleResendCode}>
               Запросить повторно
             </p>
           </>
