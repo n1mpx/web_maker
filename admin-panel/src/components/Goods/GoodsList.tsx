@@ -1,5 +1,6 @@
 // src/components/Goods/GoodsList.tsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './GoodsList.css';
 
 const dummyGoods = [
@@ -12,12 +13,12 @@ const GoodsList = () => {
   return (
     <div className="goods-grid">
       {dummyGoods.map((item) => (
-        <div key={item.id} className="goods-card">
+        <Link to={`/product/${item.id}`} key={item.id} className="goods-card">
           <img src={item.image} alt={item.name} />
           <h3>{item.name}</h3>
           <p>{item.price} ₽</p>
-          <button>В корзину</button>
-        </div>
+          <button onClick={(e) => e.preventDefault()}>В корзину</button>
+        </Link>
       ))}
     </div>
   );
