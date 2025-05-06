@@ -5,7 +5,6 @@ import GoodsList from '../components/Goods/GoodsList';
 const HomePage = () => {
   return (
     <div>
-      <h1>Каталог товаров</h1>
       <GoodsList />
     </div>
   );

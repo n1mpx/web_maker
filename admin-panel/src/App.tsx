@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/catalog" element={<HomePage />} />
-        <Route path="/product/:id" element={<ProductPage />} /> {/* Новый маршрут */}
+        <Route path="/product/:id" element={<ProductPage />} /> 
       </Routes>
     </BrowserRouter>
   );
