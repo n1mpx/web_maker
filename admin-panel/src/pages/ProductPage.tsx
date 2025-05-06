@@ -56,22 +56,24 @@ const ProductPage = () => {
         </div>
 
       </div>
-
-      <div className="reviews-section">
-        <h2>Отзывы</h2>
-        <div>⭐ {product.rating} / {product.reviews} оценок</div>
-        {product.reviewsList.map((r, i) => (
-          <div key={i} className="review">
-            <strong>{r.name}</strong>: {r.text} ⭐ {r.rating}
+      <div className="bottom-section">
+        <div className="reviews-section">
+            <h2>Отзывы</h2>
+            <div>⭐ {product.rating} / {product.reviews} оценок</div>
+            {product.reviewsList.map((r, i) => (
+              <div key={i} className="review">
+                <strong>{r.name}</strong>: {r.text} ⭐ {r.rating}
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
 
-      <div className="related-section">
-        <h2>Похожие товары</h2>
-        <p>Потом</p>
+          <div>
+            <h2>Похожие товары</h2>
+            <p>Потом</p>
+          </div>
       </div>
     </div>
+      
   );
 };
 
