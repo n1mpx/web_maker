@@ -53,6 +53,11 @@
     margin-bottom: 16px;
   }
   
+  .under-title-section{
+    align-content: space-around;
+    height:70%;
+  }
+
   .cart-description {
     max-width: 700px;
     background-color: #f4b6c664;
@@ -68,7 +73,9 @@
   
   .colors {
     margin-bottom: 24px;
-    font-weight: bold;
+    font-weight: 700;
+    font-size:3vh;
+    
   }
   
   .colors span {
@@ -85,7 +92,9 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: 10px;
+    margin-top: 20px;
+    font-weight: 700;
+    font-size:3vh;
   }
   
   .price-block {
@@ -95,6 +104,7 @@
   
   .add-to-cart {
     font-size: 24px;
+    padding: 15px;
     background: none;
     border: none;
     cursor: pointer;
@@ -111,6 +121,7 @@
     color: #888;
     margin-left: 12px;
     font-size: 18px;
+    font-weight: 400;
   }
   
   .add-to-cart {

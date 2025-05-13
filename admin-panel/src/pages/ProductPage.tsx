@@ -1,6 +1,6 @@
 import { useParams } from 'react-router-dom';
 import { dummyGoods } from '../components/Goods/GoodsBD';
-import './ProductPage.css';
+import '../styles/ProductPage.css';
 
 
 const ProductPage = () => {
@@ -20,39 +20,39 @@ const ProductPage = () => {
           <h1>
             <b>{product.title} {product.subtitle}</b>/ {product.name}
           </h1>
+          <div className="under-title-section">
+            <div className="cart-description">{product.description} <br />{product.fullDescription} </div>
 
-          <div className="cart-description">{product.description} <br />{product.fullDescription} </div>
-
-          <div className="colors">
-            Цвет 
-            {product.colors.map((c, i) => (
-              <span
-                key={i}
-                style={{
-                  backgroundColor: c,
-                  display: 'inline-block',
-                  width: '20px',
-                  height: '20px',
-                  borderRadius: '50%',
-                  margin: '0 5px',
-                }}
-              ></span>
-            ))}
-          </div>
-
-          <div className="price-cart-row">
-            <div className="price-block">
-              <span className="label">Цена</span>
-              <div className="price-line">
-                <span className="price">{product.price} ₽</span>
-                <span className="old-price">{product.oldPrice} ₽</span>
-              </div>
+            <div className="colors">
+              Цвет 
+              {product.colors.map((c, i) => (
+                <span
+                  key={i}
+                  style={{
+                    backgroundColor: c,
+                    display: 'inline-block',
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    margin: '0 5px',
+                  }}
+                ></span>
+              ))}
             </div>
-            <button className="add-to-cart">
-              <img src="/images/shopping_cart.svg" alt="Добавить в корзину" />
-            </button>
-          </div>
 
+            <div className="price-cart-row">
+              <div className="price-block">
+                <span className="label">Цена</span>
+                <div className="price-line">
+                  <span className="price">{product.price} ₽</span>
+                  <span className="old-price">{product.oldPrice} ₽</span>
+                </div>
+              </div>
+              <button className="add-to-cart">
+                <img src="/images/shopping_cart.svg" width="30px" alt="Добавить в корзину" />
+              </button>
+            </div>
+          </div>
         </div>
 
       </div>
