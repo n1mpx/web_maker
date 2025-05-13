@@ -1,13 +1,28 @@
 import { useParams } from 'react-router-dom';
 import { dummyGoods } from '../components/Goods/GoodsBD';
 import '../styles/ProductPage.css';
-
+import { useBasket } from '../components/BasketContext'; 
 
 const ProductPage = () => {
   const { id } = useParams();
   const product = dummyGoods.find((item) => item.id === Number(id));
 
+  const { addItem } = useBasket(); 
+
   if (!product) return <p>Товар не найден</p>;
+
+  const handleAddToBasket = () => {
+    const basketItem = {
+      id: product.id,
+      name: product.name,
+      color: product.colors[0] || 'без цвета',
+      quantity: 1,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      image: product.image,
+    };
+    addItem(basketItem);
+  };
 
   return (
     <div className="product-page">
@@ -20,11 +35,14 @@ const ProductPage = () => {
           <h1>
             <b>{product.title} {product.subtitle}</b>/ {product.name}
           </h1>
+
           <div className="under-title-section">
-            <div className="cart-description">{product.description} <br />{product.fullDescription} </div>
+            <div className="cart-description">
+              {product.description} <br />{product.fullDescription}
+            </div>
 
             <div className="colors">
-              Цвет 
+              Цвет
               {product.colors.map((c, i) => (
                 <span
                   key={i}
@@ -48,32 +66,32 @@ const ProductPage = () => {
                   <span className="old-price">{product.oldPrice} ₽</span>
                 </div>
               </div>
-              <button className="add-to-cart">
+
+              <button className="add-to-cart" onClick={handleAddToBasket}>
                 <img src="/images/shopping_cart.svg" width="30px" alt="Добавить в корзину" />
               </button>
             </div>
           </div>
         </div>
-
       </div>
+
       <div className="bottom-section">
         <div className="reviews-section">
-            <h2>Отзывы</h2>
-            <div>⭐ {product.rating} / {product.reviews} оценок</div>
-            {product.reviewsList.map((r, i) => (
-              <div key={i} className="review">
-                <strong>{r.name}</strong>: {r.text} ⭐ {r.rating}
-              </div>
-            ))}
-          </div>
+          <h2>Отзывы</h2>
+          <div>⭐ {product.rating} / {product.reviews} оценок</div>
+          {product.reviewsList.map((r, i) => (
+            <div key={i} className="review">
+              <strong>{r.name}</strong>: {r.text} ⭐ {r.rating}
+            </div>
+          ))}
+        </div>
 
-          <div>
-            <h2>Похожие товары</h2>
-            <p>Потом</p>
-          </div>
+        <div>
+          <h2>Похожие товары</h2>
+          <p>Потом</p>
+        </div>
       </div>
     </div>
-      
   );
 };
 
