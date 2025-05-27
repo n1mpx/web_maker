@@ -7,16 +7,16 @@ import { useBasket } from '../components/BasketContext';
 interface Good {
   id: number;
   name: string;
-  title: string;
-  subtitle: string;
-  price: number;
-  oldPrice?: number;
+  description?: string;
+  price: number | string;
+  oldPrice?: number | string;
+  colors?: string[];
+  image?: string;
+  title?: string;
+  subtitle?: string;
+  fullDescription?: string;
   rating?: number;
   reviews?: number;
-  colors: string[];
-  description?: string;
-  fullDescription?: string;
-  image?: string;
   reviewsList?: { name: string; text: string; rating: number }[];
 }
 
@@ -33,7 +33,7 @@ const ProductPage = () => {
         if (!id) return;
         const response = await getGood(id);
         setProduct(response.data);
-      } catch (err) {
+      } catch {
         setError('Ошибка при загрузке товара');
       } finally {
         setLoading(false);
@@ -48,51 +48,49 @@ const ProductPage = () => {
   if (!product) return <p>Товар не найден</p>;
 
   const handleAddToBasket = () => {
-    const basketItem = {
-      id: product.id,
-      name: product.name,
-      color: product.colors?.[0] || 'без цвета',
-      quantity: 1,
-      price: product.price,
-      oldPrice: product.oldPrice,
-      image: product.image,
-    };
-    addItem(basketItem);
+    addItem({ goodId: product.id, quantity: 1 });
   };
 
   return (
     <div className="product-page">
       <div className="main-section">
         <div className="image-slider">
-          <img src={product.image || '/images/default.png'} alt={product.name} className="main-image" />
+          <img
+            src={product.image || '/images/default.png'}
+            alt={product.name}
+            className="main-image"
+          />
         </div>
 
         <div className="info-section">
           <h1>
-            <b>{product.title} {product.subtitle}</b> / {product.name}
+            <b>{product.title || ''} {product.subtitle || ''}</b> / {product.name}
           </h1>
 
           <div className="under-title-section">
             <div className="cart-description">
-              {product.description} <br />{product.fullDescription}
+              {product.description || 'Описание отсутствует'} <br />
+              {product.fullDescription || ''}
             </div>
 
             <div className="colors">
-              Цвет:
-              {product.colors?.map((c, i) => (
-                <span
-                  key={i}
-                  style={{
-                    backgroundColor: c,
-                    display: 'inline-block',
-                    width: '20px',
-                    height: '20px',
-                    borderRadius: '50%',
-                    margin: '0 5px',
-                    border: '1px solid #ccc'
-                  }}
-                ></span>
-              ))}
+              Цвет: 
+              {(product.colors && product.colors.length > 0)
+                ? product.colors.map((c, i) => (
+                    <span
+                      key={i}
+                      style={{
+                        backgroundColor: c,
+                        display: 'inline-block',
+                        width: 20,
+                        height: 20,
+                        borderRadius: '50%',
+                        margin: '0 5px',
+                        border: '1px solid #ccc',
+                      }}
+                    />
+                  ))
+                : 'Нет данных'}
             </div>
 
             <div className="price-cart-row">
@@ -100,12 +98,18 @@ const ProductPage = () => {
                 <span className="label">Цена</span>
                 <div className="price-line">
                   <span className="price">{product.price} ₽</span>
-                  {product.oldPrice && <span className="old-price">{product.oldPrice} ₽</span>}
+                  {product.oldPrice && (
+                    <span className="old-price">{product.oldPrice} ₽</span>
+                  )}
                 </div>
               </div>
 
               <button className="add-to-cart" onClick={handleAddToBasket}>
-                <img src="/images/shopping_cart.svg" width="30px" alt="Добавить в корзину" />
+                <img
+                  src="/images/shopping_cart.svg"
+                  width={30}
+                  alt="Добавить в корзину"
+                />
               </button>
             </div>
           </div>
@@ -115,12 +119,17 @@ const ProductPage = () => {
       <div className="bottom-section">
         <div className="reviews-section">
           <h2>Отзывы</h2>
-          <div>⭐ {product.rating} / {product.reviews} оценок</div>
-          {product.reviewsList?.map((r, i) => (
-            <div key={i} className="review">
-              <strong>{r.name}</strong>: {r.text} ⭐ {r.rating}
-            </div>
-          ))}
+          <div>
+            ⭐ {product.rating ?? '—'} / {product.reviews ?? '—'} оценок
+          </div>
+          {(product.reviewsList && product.reviewsList.length > 0)
+            ? product.reviewsList.map((r, i) => (
+                <div key={i} className="review">
+                  <strong>{r.name}</strong>: {r.text} ⭐ {r.rating}
+                </div>
+              ))
+            : <p>Отзывы отсутствуют</p>
+          }
         </div>
 
         <div>

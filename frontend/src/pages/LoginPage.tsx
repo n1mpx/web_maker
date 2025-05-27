@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { sendLoginCode, confirmLoginCode } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import '../styles/LoginPage.css';
 
 export const LoginPage = () => {
@@ -9,48 +8,48 @@ export const LoginPage = () => {
   const [code, setCode] = useState('');
   const [isCodeSent, setIsCodeSent] = useState(false);
   const [isEmailValid, setIsEmailValid] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  // Если есть контекст авторизации — можно его сюда подключить:
+  // const { login } = useAuthContext();
 
   const handleSendCode = async () => {
     if (!email.includes('@')) {
       setIsEmailValid(false);
       return;
     }
-    
+
     try {
       await sendLoginCode(email);
       setIsCodeSent(true);
       setIsEmailValid(true);
+      setError(null);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error.response?.data?.message || 'Ошибка при отправке кода');
-      } else {
-        alert('Произошла неизвестная ошибка');
-      }
+      setError('Ошибка при отправке кода');
     }
   };
 
   const handleConfirmCode = async () => {
+    setError(null);
     try {
       const response = await confirmLoginCode(email, code);
-      localStorage.setItem('token', response.data.accessToken);
-      alert('Успешная авторизация!');
-      navigate('/catalog')
+      localStorage.setItem('accessToken', response.data.access);
+      localStorage.setItem('refreshToken', response.data.refresh);
+
+      navigate('/catalog');
+      window.location.reload();
+      
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        alert(error.response?.data?.message || 'Ошибка при подтверждении кода');
-      } else {
-        alert('Произошла неизвестная ошибка');
-      }
+      setError('Ошибка при подтверждении кода');
     }
   };
 
   const handleResendCode = () => {
     setCode('');
+    setError(null);
     handleSendCode();
   };
-
-  const navigate = useNavigate();
-
 
   return (
     <div className="login-wrapper">
@@ -60,9 +59,13 @@ export const LoginPage = () => {
             <h2>Вход с помощью почты</h2>
             <input
               type="email"
-              placeholder="@"
+              placeholder="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setError(null);
+                setIsEmailValid(true);
+              }}
               className={!isEmailValid ? 'input-error' : ''}
             />
             {!isEmailValid && <p className="error-text">Введите корректный email</p>}
@@ -71,6 +74,7 @@ export const LoginPage = () => {
               <input type="checkbox" defaultChecked />
               <label>Соглашаюсь с правилами пользования торговой площадкой и возврата</label>
             </div>
+            {error && <p className="error-text">{error}</p>}
           </>
         ) : (
           <>
@@ -80,16 +84,19 @@ export const LoginPage = () => {
               type="text"
               placeholder="Введите код"
               value={code}
-              onChange={(e) => setCode(e.target.value)}
+              onChange={(e) => {
+                setCode(e.target.value);
+                setError(null);
+              }}
               className="code-input"
             />
             <button onClick={handleConfirmCode}>Подтвердить</button>
             <p className="resend-code" onClick={handleResendCode}>
               Запросить повторно
             </p>
+            {error && <p className="error-text">{error}</p>}
           </>
         )}
-        
       </div>
     </div>
   );
