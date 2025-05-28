@@ -7,3 +7,7 @@ export const sendLoginCode = (email: string) => {
 export const confirmLoginCode = (email: string, code: string) => {
   return api.post('/auth/confirm/', { email, code });
 };
+
+export const getUserInfo = () => {
+  return api.get('/auth/me/'); // или '/users/me/', зависит от твоего backend'а
+};

@@ -7,7 +7,8 @@ import Layout from './components/Layout';
 import BasketPage from './pages/BasketPage';
 import ProfilePage from './pages/ProfilePage';
 import { BasketProvider } from './components/BasketContext';
-
+import SellerDashboard from './pages/SellerDashboard'
+ 
 function App() {
   return (
     <BasketProvider>
@@ -19,6 +20,7 @@ function App() {
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/basket" element={<BasketPage />} />
             <Route path="/userPage" element={<ProfilePage />} />
+            <Route path="/seller/dashboard" element={<SellerDashboard />} />
           </Route>
         </Routes>
       </BrowserRouter>

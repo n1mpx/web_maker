@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { sendLoginCode, confirmLoginCode } from '../services/authService';
+import { sendLoginCode, confirmLoginCode, getUserInfo } from '../services/authService';
 import { useNavigate } from 'react-router-dom';
 import '../styles/LoginPage.css';
 
@@ -31,19 +31,27 @@ export const LoginPage = () => {
   };
 
   const handleConfirmCode = async () => {
-    setError(null);
-    try {
-      const response = await confirmLoginCode(email, code);
-      localStorage.setItem('accessToken', response.data.access);
-      localStorage.setItem('refreshToken', response.data.refresh);
+  setError(null);
+  try {
+    const response = await confirmLoginCode(email, code);
+    localStorage.setItem('accessToken', response.data.access);
+    localStorage.setItem('refreshToken', response.data.refresh);
 
+    const userInfo = await getUserInfo();
+    const userRole = userInfo.data.role;
+
+    if (userRole === 'seller') {
+      navigate('/seller/dashboard');
+    } else {
       navigate('/catalog');
-      window.location.reload();
-      
-    } catch (error) {
-      setError('Ошибка при подтверждении кода');
     }
-  };
+
+    window.location.reload();
+
+  } catch (error) {
+    setError('Ошибка при подтверждении кода');
+  }
+};
 
   const handleResendCode = () => {
     setCode('');
@@ -58,6 +66,7 @@ export const LoginPage = () => {
           <>
             <h2>Вход с помощью почты</h2>
             <input
+              name='email'
               type="email"
               placeholder="Email"
               value={email}

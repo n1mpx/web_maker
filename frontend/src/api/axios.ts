@@ -8,16 +8,14 @@ const api = axios.create({
   },
 });
 
-// Добавляем accessToken в каждый запрос
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('accessToken');
-  if (token) {
+  if (token && config.headers) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });
 
-// Обновляем accessToken по refreshToken, если получен 401
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
@@ -30,7 +28,6 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       try {
-        // Используем api для запроса с настройками
         const refreshResponse = await api.post('/auth/refresh/', {
           refresh: localStorage.getItem('refreshToken'),
         });
@@ -44,7 +41,7 @@ api.interceptors.response.use(
         console.error('Ошибка при обновлении токена', refreshError);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/'; // путь на страницу логина — '/'
+        window.location.href = '/';
         return Promise.reject(refreshError);
       }
     }
