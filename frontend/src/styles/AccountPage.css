@@ -1,0 +1,142 @@
+.account-container {
+  display: flex;
+  background: #f0f0f0;
+  min-height: 100vh;
+  padding: 50px 100px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.sidebar {
+  background: #fff;
+  border-radius: 20px;
+  padding: 20px;
+  width: 250px;
+  max-height: 55vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  box-shadow: 0 0 8px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.sidebar h2 input {
+  font-size: 16px;
+  width: fit-content;
+  padding: 4px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.sidebar h2 button {
+  margin-left: 8px;
+  background-color: #ffaa88;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.sidebar h2 button:hover {
+  background-color: #ff8866;
+}
+
+.tabs {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tabs button {
+  background-color: #ffaa88;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease;
+}
+
+.tabs button:hover,
+.tabs button.active {
+  background-color: #ff8866;
+  color: #fff;
+}
+
+.tab-content {
+  margin-left: 110px;
+  height: fit-content;
+  max-width: 100vh;
+  flex-grow: 1;
+  background: #fff;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.05);
+}
+
+.title{
+  justify-items: center;
+}
+
+.tab-content h3 {
+  display: flex;
+  background-color: #f9b6c1;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  margin: 20px;
+  width: 200PX;
+  justify-content: center;
+}
+
+.tab-content p{
+  padding: 20px;
+}
+
+.avatar-section {
+  margin-bottom: 16px;
+  display: flex;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  border: 2px solid #ccc;
+}
+
+.avatar-section h2{
+  margin-bottom: 0 ;
+  margin-left: 10px;
+}
+
+.logout-button {
+  background-color: #f9b6c1;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.logout-button:hover {
+  background-color: #f47b85;
+  color: white;
+}

@@ -5,7 +5,7 @@ import HomePage from './pages/HomePage';
 import ProductPage from './pages/ProductPage';
 import Layout from './components/Layout';
 import BasketPage from './pages/BasketPage';
-import UserPage from './pages/UserPage';
+import ProfilePage from './pages/ProfilePage';
 import { BasketProvider } from './components/BasketContext';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
             <Route path="/catalog" element={<HomePage />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/basket" element={<BasketPage />} />
-            <Route path="/userPage" element={<UserPage />} />
+            <Route path="/userPage" element={<ProfilePage />} />
           </Route>
         </Routes>
       </BrowserRouter>
