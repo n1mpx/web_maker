@@ -8,7 +8,10 @@ import BasketPage from './pages/BasketPage';
 import ProfilePage from './pages/ProfilePage';
 import { BasketProvider } from './components/BasketContext';
 import SellerDashboard from './pages/SellerDashboard'
- 
+import CheckoutPage from './pages/CheckoutPage';
+
+
+
 function App() {
   return (
     <BasketProvider>
@@ -21,6 +24,7 @@ function App() {
             <Route path="/basket" element={<BasketPage />} />
             <Route path="/userPage" element={<ProfilePage />} />
             <Route path="/seller/dashboard" element={<SellerDashboard />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

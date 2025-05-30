@@ -86,9 +86,10 @@ const AccountPage = () => {
           <button className={activeTab === 'purchases' ? 'active' : ''} onClick={() => setActiveTab('purchases')}>Покупки</button>
           <button className={activeTab === 'settings' ? 'active' : ''} onClick={() => setActiveTab('settings')}>Настройки</button>
           <button className={activeTab === 'help' ? 'active' : ''} onClick={() => setActiveTab('help')}>Помощь</button>
-        </nav>
 
+        </nav>
         <button className="logout-button" onClick={handleLogout}>Выйти</button>
+
       </aside>
 
       <section className="tab-content">

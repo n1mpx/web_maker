@@ -1,10 +1,16 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import '../styles/Header.css'; 
+import { useState, useEffect } from 'react';
+import '../styles/Header.css';
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [role, setRole] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const storedRole = localStorage.getItem('userRole');
+    setRole(storedRole);
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,14 +56,25 @@ const Header = () => {
           </svg>
         </Link>
 
-        <Link to="/userPage" className="icon-button" title="Личный кабинет">
-          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2"
-            strokeLinecap="round" strokeLinejoin="round" className="icon">
-            <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
-            <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-        </Link>
+        {role === 'seller' ? (
+          <Link to="/seller/dashboard" className="icon-button" title="Панель продавца">
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2"
+              strokeLinecap="round" strokeLinejoin="round" className="icon">
+              <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </Link>
+        ) : (
+          <Link to="/userPage" className="icon-button" title="Личный кабинет">
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2"
+              strokeLinecap="round" strokeLinejoin="round" className="icon">
+              <path d="M20 21v-2a4 4 0 0 0-3-3.87" />
+              <path d="M4 21v-2a4 4 0 0 1 3-3.87" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </Link>
+        )}
       </div>
     </header>
   );

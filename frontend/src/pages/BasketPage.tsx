@@ -1,12 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // добавлено
 import { useBasket } from '../components/BasketContext';
 import '../styles/BasketPage.css';
 
 const BasketPage = () => {
   const { items, removeItem, updateQuantity } = useBasket();
+  const navigate = useNavigate(); // добавлено
 
   const totalCount = items.reduce((acc, item) => acc + item.quantity, 0);
   const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+
+  const handleProceedToCheckout = () => {
+    navigate('/checkout'); // переход на страницу оформления
+  };
 
   return (
     <div className="basket-page">
@@ -46,7 +52,9 @@ const BasketPage = () => {
       </div>
 
       <div className="basket-right">
-        <button className="checkout-button">Перейти к оформлению</button>
+        <button className="checkout-button" onClick={handleProceedToCheckout}>
+          Перейти к оформлению
+        </button>
 
         <div className="summary-row">
           <span>{totalCount} товар{totalCount > 1 ? 'ов' : ''}</span>

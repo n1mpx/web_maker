@@ -39,6 +39,7 @@ export const LoginPage = () => {
 
     const userInfo = await getUserInfo();
     const userRole = userInfo.data.role;
+    localStorage.setItem('userRole', userRole);
 
     if (userRole === 'seller') {
       navigate('/seller/dashboard');

@@ -1,0 +1,161 @@
+/* Главный контейнер */
+.sd-dashboard-container {
+  display: flex;
+  background: #f0f0f0;
+  min-height: 90vh;
+  padding: 30px;
+  gap: 30px;
+}
+
+/* Левая колонка (меню) */
+.sd-sidebar {
+  width: 300px;
+  height: fit-content;
+  background: white;
+  border-radius: 20px;
+  padding: 40px 20px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sd-sidebar button {
+  background: pink;
+  width: 100%;
+  border: none;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.sd-sidebar button:hover {
+  background: #ffb6c1;
+}
+
+.sd-sidebar .sd-active {
+  background: #d495a2;
+}
+
+/* Правая колонка (контент) */
+.sd-content {
+  flex: 1;
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  height: fit-content;
+}
+
+/* Заголовок блока товаров */
+.sd-goods-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sd-goods-header h2 {
+  margin: 0;
+}
+
+.sd-goods-header button {
+  background: pink;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.sd-goods-header button:hover {
+  background: #ffb6c1;
+}
+
+/* Форма создания/редактирования */
+.sd-form-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sd-form-section input,
+.sd-form-section textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.sd-price-row {
+  display: flex;
+  gap: 20px;
+}
+
+.sd-form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.sd-form-actions button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  background: pink;
+  transition: background 0.3s ease;
+}
+
+.sd-form-actions button:hover {
+  background: #ffb6c1;
+}
+
+.sd-delete-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+}
+
+/* Список товаров */
+.sd-goods-list {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sd-good-item {
+  background: #f7f7f7;
+  padding: 15px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid #ddd;
+  transition: background 0.2s ease;
+}
+
+.sd-good-item:hover {
+  background: #efefef;
+}
+
+.sd-logout-button {
+  background-color: #f9b6c1;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.sd-logout-button:hover {
+  background-color: #f47b85;
+  color: white;
+}
