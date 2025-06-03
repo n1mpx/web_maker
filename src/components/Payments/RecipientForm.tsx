@@ -1,5 +1,5 @@
 import React from 'react';
-import { IRecipient } from '../../types/index';
+import { IRecipient } from '../../types';
 
 interface Props {
   recipient: IRecipient;
@@ -15,7 +15,7 @@ const RecipientForm: React.FC<Props> = ({ recipient, setRecipient }) => {
   return (
     <div>
       <h2>Получатель</h2>
-      <div className='recipient-form-grid'>
+      <div className="recipient-form-grid">
         <input name="firstName" placeholder="Имя" value={recipient.firstName} onChange={handleChange} />
         <input name="lastName" placeholder="Фамилия" value={recipient.lastName} onChange={handleChange} />
         <input name="middleName" placeholder="Отчество" value={recipient.middleName} onChange={handleChange} />

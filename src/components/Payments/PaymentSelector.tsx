@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { IPaymentMethod } from '../../types/index';
+import { IPaymentMethod } from '../../types';
 import api from '../../api/axios';
 
-interface PaymentSelectorProps {
+interface Props {
   selectedId: number | null;
   onSelect: (id: number) => void;
 }
 
-const PaymentSelector: React.FC<PaymentSelectorProps> = ({ selectedId, onSelect }) => {
+const PaymentSelector: React.FC<Props> = ({ selectedId, onSelect }) => {
   const [methods, setMethods] = useState<IPaymentMethod[]>([]);
 
   useEffect(() => {
     const fetchMethods = async () => {
-      try {
-        const res = await api.get('/payment-methods/');
-        setMethods(res.data.items || res.data || []);
-      } catch (error) {
-        console.error('Error loading payment methods:', error);
-        setMethods([]);
-      }
+      const res = await api.get('/payment-methods/');
+      setMethods(res.data.items || res.data || []);
     };
     fetchMethods();
   }, []);

@@ -7,7 +7,7 @@ import BasketSummary from '../components/Basket/BasketSummary';
 import { IRecipient } from '../types/index';
 import api from '../api/axios';
 import { useBasket } from '../components/BasketContext';
-import '../styles/CheckoutPage.css'
+import '../styles/CheckoutPage.css';
 
 const CheckoutPage = () => {
   const { items } = useBasket();
@@ -32,7 +32,8 @@ const CheckoutPage = () => {
       !recipient.firstName ||
       !recipient.lastName ||
       !recipient.address ||
-      !recipient.phone
+      !recipient.phone ||
+      !recipient.zipCode
     ) {
       alert('Пожалуйста, заполните все обязательные поля');
       return;
@@ -41,21 +42,55 @@ const CheckoutPage = () => {
     setLoading(true);
 
     try {
-      const checkout = await api.post('/checkouts/', {
-        deliveryMethod: deliveryId,
-        paymentMethod: paymentId,
-        recipient,
+      const toSnakeCaseRecipient = (recipient: IRecipient) => ({
+        first_name: recipient.firstName,
+        last_name: recipient.lastName,
+        middle_name: recipient.middleName,
+        address: recipient.address,
+        zip_code: recipient.zipCode,
+        phone: recipient.phone,
       });
 
-      await api.post('/transactions/', {
-        checkout: checkout.data.id,
+      // 1. Создание получателя
+      const recipientResponse = await api.post('/recipients/', toSnakeCaseRecipient(recipient));
+      const recipientId = recipientResponse.data.id;
+
+      // 2. Считаем итоговую сумму
+      const paymentTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+      // 3. Создание чекаута
+      const checkoutPayload = {
+        deliveryMethodId: deliveryId,
+        paymentMethodId: paymentId,
+        recipientId: recipientId,
+        payment_total: paymentTotal,
+      };
+
+      const checkoutResponse = await api.post('/checkouts/', checkoutPayload);
+      const checkoutId = checkoutResponse.data.id;
+
+      // 4. Создание транзакции
+      const transactionResponse = await api.post('/transactions/', {
+        checkoutId: checkoutId,
+        amount: paymentTotal,
       });
 
-      alert('Заказ успешно оформлен!');
-      navigate('/basket');
-    } catch (error) {
-      console.error(error);
-      alert('Ошибка при оформлении заказа. Попробуйте позже.');
+      // 5. Перенаправляем на URL оплаты, если есть
+      const paymentUrl = transactionResponse.data.payment_url;
+      if (paymentUrl) {
+        window.location.href = paymentUrl;
+      } else {
+        alert('Заказ успешно оформлен!');
+        navigate('/basket');
+      }
+    } catch (error: any) {
+      if (error.response) {
+        console.error('Ошибка от сервера:', error.response.data);
+        alert('Ошибка при оформлении заказа:\n' + JSON.stringify(error.response.data, null, 2));
+      } else {
+        console.error(error);
+        alert('Неизвестная ошибка. Попробуйте позже.');
+      }
     } finally {
       setLoading(false);
     }
@@ -69,7 +104,8 @@ const CheckoutPage = () => {
         <div className="checkout-section delivery-section">
           <DeliverySelector selectedId={deliveryId} onSelect={setDeliveryId} />
         </div>
-        <div className="checkout-section recipient-section ">
+
+        <div className="checkout-section recipient-section">
           <RecipientForm recipient={recipient} setRecipient={setRecipient} />
         </div>
 
@@ -78,8 +114,9 @@ const CheckoutPage = () => {
         </div>
 
         <input type="checkbox" defaultChecked />
-          <label >Соглашаясь, вы принимаете условия пользования торговой площадкой и правила возврата</label>
-        
+        <label>
+          Соглашаясь, вы принимаете условия пользования торговой площадкой и правила возврата
+        </label>
       </div>
 
       <div className="checkout-right">

@@ -2,7 +2,7 @@ import React from 'react';
 import { BasketItemType, useBasket } from '../BasketContext';
 
 const BasketItem: React.FC<{ item: BasketItemType }> = ({ item }) => {
-  const { removeItem } = useBasket();
+  const { removeItem, updateQuantity } = useBasket();
 
   return (
     <div className="basket-item">
@@ -10,10 +10,15 @@ const BasketItem: React.FC<{ item: BasketItemType }> = ({ item }) => {
       <div className="info">
         <strong>{item.name}</strong>
         <p>Цвет: {item.color}</p>
-        <p>Количество: {item.quantity}</p>
         <p>
-          Цена: <strong>{item.price}</strong>{' '}
-          {item.oldPrice && <s>{item.oldPrice}</s>}
+          Количество:
+          <button onClick={() => updateQuantity(item.id, item.quantity - 1)}>-</button>
+          {item.quantity}
+          <button onClick={() => updateQuantity(item.id, item.quantity + 1)}>+</button>
+        </p>
+        <p>
+          Цена: <strong>{item.price} ₽</strong>{' '}
+          {item.oldPrice && <s>{item.oldPrice} ₽</s>}
         </p>
       </div>
       <button onClick={() => removeItem(item.id)}>✖</button>

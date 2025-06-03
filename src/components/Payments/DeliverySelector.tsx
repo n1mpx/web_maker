@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { IDeliveryMethod } from '../../types/index';
+import { IDeliveryMethod } from '../../types';
 import api from '../../api/axios';
 
-interface DeliverySelectorProps {
+interface Props {
   selectedId: number | null;
   onSelect: (id: number) => void;
 }
 
-const DeliverySelector: React.FC<DeliverySelectorProps> = ({ selectedId, onSelect }) => {
+const DeliverySelector: React.FC<Props> = ({ selectedId, onSelect }) => {
   const [methods, setMethods] = useState<IDeliveryMethod[]>([]);
 
   useEffect(() => {
     const fetchMethods = async () => {
       const res = await api.get('/delivery-methods/');
-      // Если данные в res.data.items
       setMethods(res.data.items || []);
     };
     fetchMethods();

@@ -1,5 +1,5 @@
 import React from 'react';
-import { IBasketItem } from '../../types/index'; // опиши тип, если надо
+import { IBasketItem } from '../../types';
 
 interface BasketSummaryProps {
   items: IBasketItem[];
@@ -12,7 +12,7 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({ items }) => {
     <div className="summary">
       <p>{items.length} товар(ов)</p>
       <p>Доставка: при оформлении</p>
-      <strong>Итого: {total} ₽</strong>
+      <strong>Итого: {total.toLocaleString()} ₽</strong>
     </div>
   );
 };

@@ -1,15 +1,15 @@
-export interface IPaymentMethod {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-}
-
 export interface IDeliveryMethod {
   id: number;
   title: string;
-  description: string;
-  image: string;
+  description?: string;
+  image?: string;
+}
+
+export interface IPaymentMethod {
+  id: number;
+  title: string;
+  description?: string;
+  image?: string;
 }
 
 export interface IRecipient {
@@ -21,6 +21,7 @@ export interface IRecipient {
   phone: string;
 }
 
+
 export interface IBasketItem {
   id: number;
   goodId: number;
@@ -31,3 +32,4 @@ export interface IBasketItem {
   color?: string;
   oldPrice?: number;
 }
+
