@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import '../styles/ProductPage.css';
 import { getGood } from '../api/goods';
 import { useBasket } from '../components/BasketContext';
+import { Good } from '../types/index';
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -36,7 +37,9 @@ const ProductPage = () => {
   };
 
   const images = product.images?.length ? product.images : null;
-  const mainImage = images?.[currentImageIndex]?.image || product.image || '/images/default.png';
+  const mainImage = images?.[currentImageIndex]?.image
+    ? images[currentImageIndex].image
+    : '/images/default.png';
 
   return (
     <div className="product-page">
@@ -82,7 +85,7 @@ const ProductPage = () => {
             </div>
 
             <div className="colors">
-              Цвет: 
+              Цвет:{' '}
               {(product.colors && product.colors.length > 0)
                 ? product.colors.map((c, i) => (
                     <span

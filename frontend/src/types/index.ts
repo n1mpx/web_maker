@@ -21,13 +21,13 @@ export interface IRecipient {
   phone: string;
 }
 
-interface GoodImage {
+export interface GoodImage {
   id: number;
   image: string;
   thumbnail?: string;
 }
 
-interface Good {
+export interface Good {
   id: number;
   name: string;
   description?: string;
