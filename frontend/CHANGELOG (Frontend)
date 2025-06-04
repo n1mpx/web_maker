@@ -1,0 +1,28 @@
+Added
+Поддержка отображения изображений товаров на странице ProductPage.
+
+Основное изображение + миниатюры (thumbnails) при наличии нескольких.
+
+Поддержка fallback-изображения /images/default.png, если нет загруженных изображений.
+
+Тип GoodImage в types/index.ts:
+
+ts
+Копировать
+Редактировать
+export interface GoodImage {
+  id: number;
+  image: string;
+  thumbnail?: string;
+}
+В интерфейсе Good добавлено поле images?: GoodImage[].
+
+Changed
+В ProductPage.tsx:
+
+Использование product.images вместо жестко прописанного изображения.
+
+Основное изображение теперь меняется по клику на миниатюру.
+
+Добавлен baseURL префикс для загрузки изображений с сервера.
+
